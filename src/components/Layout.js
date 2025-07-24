@@ -1,126 +1,70 @@
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import { List, Button, IconButton, Typography, Toolbar, AppBar, Divider, Drawer } from '@material-ui/core';
+import { Drawer, List, Divider, AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { managerMenuListItems, userMenuListItems } from './MenuItems';
-import { Link } from 'react-router-dom'
-import { firebaseConnect } from 'react-redux-firebase';
-import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import firebase from '../firebase/config'; // Make sure this import is at the top
 
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  flex: {
-    flex: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-  list: {
-    width: 250,
-  },
-};
+const drawerWidth = 240;
 
-class MenuAppBar extends React.Component {
-  state = {
-    auth: true,
-    anchorEl: null,
-    left: false,
-  };
+export default function Layout({ children }) {
+  const navigate = useNavigate();
 
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open,
-    });
-  };
+  return (
+    <Box sx={{ display: 'flex' }}>
+      {/* Permanent Sidebar */}
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            background: '#f5f5f5',
+            color: '#1976d2',
+          },
+        }}
+      >
+        <Toolbar />
+        <Box sx={{ overflow: 'auto' }}>
+          <List>{managerMenuListItems}</List>
+          <Divider />
+          <List>{userMenuListItems}</List>
+        </Box>
+      </Drawer>
 
-  handleChange(event, checked) {
-    this.setState({ auth: checked });
-  };
-
-  handleMenu(event) {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose() {
-    this.setState({ anchorEl: null });
-  };
-
-  logout() {
-    this.props.firebase.logout();
-  }
-
-  render() {
-    const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
-    const open = Boolean(anchorEl);
-    const sideList = (
-      <div className={classes.list}>
-        <List>{managerMenuListItems}</List>
-        <Divider />
-        <List>{userMenuListItems}</List>
-      </div>
-    );
-
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
+      {/* Main Content Area */}
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: '#e3f2fd', minHeight: '100vh' }}>
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
-              onClick={this.toggleDrawer('left', true)} >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex}>
-              Bike Rental
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+              RideEase: Car & Bike Rentals
             </Typography>
-            <Button
-              color="inherit"
-              component={Link} to="/login"
-            >
-              Sign In
+            <Button color="inherit" component={Link} to="/signup" sx={{ ml: 2 }}>
+              SIGN UP
+            </Button>
+            <Button color="inherit" component={Link} to="/login" sx={{ ml: 2 }}>
+              LOGIN
             </Button>
             <Button
               color="inherit"
-              component={Link} to="/login"
+              onClick={() => {
+                firebase.auth().signOut();
+                navigate('/login');
+              }}
+              sx={{ ml: 2 }}
             >
-              Login
-              </Button>
-            <Button
-              color="inherit"
-              onClick={() => this.logout()}
-            >
-              Logout
+              LOGOUT
             </Button>
           </Toolbar>
         </AppBar>
-        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
-          >
-            {sideList}
-          </div>
-        </Drawer>
-      </div>
-    );
-  }
+        <Toolbar /> {/* For spacing below AppBar */}
+        <Box sx={{ p: 3 }}>
+          <Outlet />
+        </Box>
+      </Box>
+    </Box>
+  );
 }
-
-MenuAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default compose(
-  withStyles(styles),
-  firebaseConnect(),
-)(MenuAppBar)

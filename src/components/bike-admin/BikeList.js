@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core'
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import TableBody from '@mui/material/TableBody';
 import BikeListBodyRow from './BikeListBodyRow'
-
-const styles = theme => ({
-    root: {
-        margin: theme.spacing.unit * 3,
-    },
-});
 
 class LoadingRow extends Component {
     render() {
@@ -45,11 +43,12 @@ class BikeListBody extends Component {
 
 class BikeList extends Component {
     render() {
-        const { classes, bikes, editBike } = this.props;
+        const { bikes, editBike } = this.props;
+        console.log('BikeList render', this.props.bikes);
 
         return (
-            <Paper className={classes.root}>
-                <Table className={classes.table}>
+            <Paper sx={{ m: 3 }}>
+                <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>Id</TableCell>
@@ -71,9 +70,8 @@ class BikeList extends Component {
 }
 
 export default compose(
-    withStyles(styles),
-    firebaseConnect(['bikes']),
-    connect((state) => ({
-        bikes: state.firebase.data.bikes,
-    })),
-)(BikeList)
+  firebaseConnect(['bikes']),
+  connect((state) => ({
+    bikes: state.firebase.data.bikes,
+  }))
+)(BikeList);

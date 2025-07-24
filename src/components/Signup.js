@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
-import firebase from '../../firebase/config';
+import firebase from '../firebase/config';
 import { useNavigate } from "react-router-dom";
 import { Box, Button, TextField, Typography, Alert, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-export default function Login() {
+export default function Signup() {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [birthday, setBirthday] = useState('');
   const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
+    if (password !== confirm) {
+      setError("Passwords do not match.");
+      return;
+    }
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      navigate("/"); // Redirect to home or dashboard
+      const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      if (name) {
+        await firebase.auth().currentUser.updateProfile({ displayName: name });
+      }
+      setSuccess("Registration successful! Redirecting...");
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       setError(err.message);
     }
@@ -43,9 +56,27 @@ export default function Login() {
         }}
       >
         <Typography variant="h4" align="center" gutterBottom fontWeight="bold" color="primary">
-          Login
+          Sign Up
         </Typography>
         <form onSubmit={handleSubmit}>
+          <TextField
+            label="Full Name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Birthday"
+            type="date"
+            value={birthday}
+            onChange={e => setBirthday(e.target.value)}
+            required
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+          />
           <TextField
             label="Email"
             type="email"
@@ -64,6 +95,15 @@ export default function Login() {
             fullWidth
             margin="normal"
           />
+          <TextField
+            label="Confirm Password"
+            type="password"
+            value={confirm}
+            onChange={e => setConfirm(e.target.value)}
+            required
+            fullWidth
+            margin="normal"
+          />
           <Button
             type="submit"
             variant="contained"
@@ -71,12 +111,13 @@ export default function Login() {
             fullWidth
             sx={{ mt: 2, fontWeight: "bold", py: 1.5, fontSize: 18 }}
           >
-            Login
+            Sign Up
           </Button>
           {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+          {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
         </form>
         <Typography align="center" sx={{ mt: 2 }}>
-          Don't have an account? <Link to="/signup">Sign up</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </Typography>
       </Paper>
     </Box>

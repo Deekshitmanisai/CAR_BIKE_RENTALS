@@ -1,9 +1,12 @@
 import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Icon, Button } from '@material-ui/core';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Icon from '@mui/material/Icon';
+import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import Divider from '@mui/material/Divider';
 
 export const managerMenuListItems = (
     <div>
@@ -15,37 +18,21 @@ export const managerMenuListItems = (
                 <ListItemText primary="Bikes" />
             </ListItem>
         </Link>
-        <Link to="users" style={{ textDecoration: 'none' }}>
-            <ListItem button>
-                <ListItemIcon>
-                    <Icon>person</Icon>
-                </ListItemIcon>
-                <ListItemText primary="Users" />
-            </ListItem>
-        </Link>
-        <Link to="bike-bookings" style={{ textDecoration: 'none' }}>
-            <ListItem button>
-                <ListItemIcon>
-                    <Icon>list</Icon>
-                </ListItemIcon>
-                <ListItemText primary="Bookings" />
-            </ListItem>
-        </Link>
     </div>
 );
 
 export const userMenuListItems = (
     <div>
-
-        <Link to="book-a-bike" style={{ textDecoration: 'none' }}>
+        <Link to="/cars" style={{ textDecoration: 'none' }}>
             <ListItem button>
                 <ListItemIcon>
-                    <Icon>directions_bike</Icon>
+                    <DirectionsCarIcon />
                 </ListItemIcon>
-                <ListItemText primary="Bikes" />
+                <ListItemText primary="Cars" />
             </ListItem>
         </Link>
-        <Link to="my-bookings" style={{ textDecoration: 'none' }}>
+        <Divider sx={{ my: 1 }} />
+        <Link to="/my-bookings" style={{ textDecoration: 'none' }}>
             <ListItem button>
                 <ListItemIcon>
                     <Icon>list</Icon>

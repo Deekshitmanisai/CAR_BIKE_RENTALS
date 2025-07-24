@@ -1,24 +1,10 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
-import { withStyles } from '@material-ui/core/styles';
 import BikeFormDialog from './BikeFormDialog'
 import BikeList from './BikeList'
-import { Button } from '@material-ui/core'
+import Button from '@mui/material/Button';
 import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir, userIsAuthenticated, userIsNotAuthenticated } from '../../auth/'
 import { firebaseConnect } from 'react-redux-firebase'
-
-const styles = theme => ({
-  root: {
-    margin: theme.spacing.unit * 3,
-  },
-  table: {
-  },
-  button: {
-    margin: theme.spacing.unit,
-    marginLeft: theme.spacing.unit * 3,
-    marginTop: theme.spacing.unit * 3,
-  }
-});
 
 class BikeAdmin extends Component {
   state = {
@@ -70,14 +56,15 @@ class BikeAdmin extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    console.log('BikeAdmin render');
     return (
       <div>
+        <h1>BikeAdmin Test</h1>
         <Button
           onClick={() => this.createBike()}
-          className={classes.button}
           color="primary"
           variant="contained"
+          sx={{ m: 1, ml: 3, mt: 3 }}
         >
           Add new bike
         </Button>
@@ -97,8 +84,4 @@ class BikeAdmin extends Component {
   }
 }
 
-export default compose(
-  withStyles(styles),
-  firebaseConnect(),
-  userIsAuthenticatedRedir
-)(BikeAdmin)
+export default BikeAdmin;

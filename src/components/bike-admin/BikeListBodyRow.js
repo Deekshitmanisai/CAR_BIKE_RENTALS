@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import { TableRow, TableCell, IconButton, Icon } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
+import { styled } from '@mui/material/styles';
 import { compose } from 'redux'
 import { firebaseConnect } from 'react-redux-firebase'
 
@@ -17,7 +20,7 @@ class BikeListBodyRow extends Component {
     }
 
     render() {
-        const { fid, bike, classes, editBike } = this.props;
+        const { fid, bike, editBike } = this.props;
         return (
             <TableRow key={fid}>
                 <TableCell>{fid}</TableCell>
@@ -27,10 +30,10 @@ class BikeListBodyRow extends Component {
                 <TableCell>{bike.location}</TableCell>
                 <TableCell>{bike.available ? 'yes' : 'no'}</TableCell>
                 <TableCell>
-                    <IconButton className={classes.button} aria-label="Edit" onClick={() => editBike(fid, bike)} >
+                    <IconButton sx={{ ml: 1 }} aria-label="Edit" onClick={() => editBike(fid, bike)} >
                         <Icon>edit</Icon>
                     </IconButton>
-                    <IconButton className={classes.button} aria-label="Delete" onClick={() => this.deleteBike(fid)}>
+                    <IconButton sx={{ ml: 1 }} aria-label="Delete" onClick={() => this.deleteBike(fid)}>
                         <Icon>delete</Icon>
                     </IconButton>
                 </TableCell>
@@ -40,6 +43,5 @@ class BikeListBodyRow extends Component {
 }
 
 export default compose(
-    withStyles(styles),
-    firebaseConnect()
-)(BikeListBodyRow)
+  // withStyles(styles),   // <-- Remove or comment out this line
+)(BikeListBodyRow);

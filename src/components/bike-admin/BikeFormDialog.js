@@ -1,13 +1,13 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { Checkbox, FormControlLabel } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Checkbox, FormControlLabel } from '@mui/material'
+import { styled } from '@mui/material/styles';
 import { compose } from 'redux'
 import { firebaseConnect } from 'react-redux-firebase'
 
@@ -130,9 +130,4 @@ class BikeFormDialog extends React.Component {
   }
 }
 
-export default compose(
-  withStyles(styles),
-  firebaseConnect([
-    'bikes'
-  ])
-)(BikeFormDialog)
+export default BikeFormDialog;
