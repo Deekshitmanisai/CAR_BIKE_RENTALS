@@ -77,4 +77,9 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ## References
 Screenshots and photos of the Firebase and PayPal setup will be added soon for reference and guidance.
+<img width="1808" height="704" alt="image" src="https://github.com/user-attachments/assets/786be14e-85ec-49ea-82e7-8d11e1b6dfda" />
+<img width="1833" height="810" alt="image" src="https://github.com/user-attachments/assets/b2d46b54-0127-483d-81d0-92806c9dfc3f" />
+<img width="1811" height="815" alt="image" src="https://github.com/user-attachments/assets/4d9c6a32-aeba-4ec3-b90c-a0a4277ca3a0" />
+
+
 
